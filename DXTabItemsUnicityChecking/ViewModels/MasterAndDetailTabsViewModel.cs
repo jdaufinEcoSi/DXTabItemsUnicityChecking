@@ -1,15 +1,33 @@
 ﻿using DXTabItemsUnicityChecking.Models;
-using System;
 using System.Collections.Generic;
-using System.ComponentModel;
+using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DXTabItemsUnicityChecking.ViewModels
 {
     public class MasterAndDetailTabsViewModel : ViewModelBase
     {
+        public MasterAndDetailTabsViewModel()
+        {
+            TabItems = new ObservableCollection<ViewModelBase>();
+        }
+
+        private ObservableCollection<ViewModelBase> tabItems;
+
+        public ObservableCollection<ViewModelBase> TabItems
+        {
+            get => tabItems;
+            set => SetProperty(ref tabItems, value);
+        }
+
+        public void Initialize()
+        {
+            var dataset = Populate();
+            var listViewModel = new HeadersListViewModel(dataset);
+            TabItems.Add(listViewModel);
+        }
+
+
         private static List<Header> Populate()
         {
             Header GenerateHeader(int index)
